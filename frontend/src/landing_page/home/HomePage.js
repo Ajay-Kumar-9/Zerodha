@@ -9,7 +9,7 @@ import Pricing from './Pricing';
 
 function Homepage() {
   return ( 
-    <>
+  <div className='overflow-x-hidden'>
  
     <Hero/>
    <Awards/>
@@ -17,12 +17,13 @@ function Homepage() {
    <Pricing/>
    <Education/>
    <OpenAccount/>
+   </div>
    
 
    
 
 
-    </>
+   
    );
 }
 
