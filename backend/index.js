@@ -24,6 +24,13 @@ const url = process.env.MONGO_URL;
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get("/" , (req,res)=>{
+  res.send({
+    setActiveStatus : true,
+    error : false
+  })
+})
+
 app.use("/auth", authRouter);
 app.use("/products", ProductRouter);
 
