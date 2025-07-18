@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./Signup.css";
-import { handlError } from "../../utils";
-import { handleSuccess } from "../../utils";
+import { handlError, handleSuccess } from "../../utils";
 
 export default function Login() {
   const [loginInfo, setLoginInfo] = useState({
@@ -11,55 +10,42 @@ export default function Login() {
     password: "",
   });
 
-//   const navigate = useNavigate();
-
-  //input handler
-
+  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    const copyLoginInfo = { ...loginInfo };
-    copyLoginInfo[name] = value;
-    setLoginInfo(copyLoginInfo);
+    setLoginInfo({ ...loginInfo, [name]: value });
   };
-  // console.log('login info -> ',  signupInfo);
 
-  // form submit handler
+  // Handle form submit
   const handleLogin = async (e) => {
     e.preventDefault();
-    const { email, password, username } = loginInfo;
+    const { email, password } = loginInfo;
 
-    if ( !email || !password) {
-      return handlError(" email and  password are required");
+    if (!email || !password) {
+      return handlError("Email and password are required");
     }
+
     try {
       const url = `${process.env.REACT_APP_API_BASE_URL}/auth/login`;
       const response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginInfo),
       });
+
       const result = await response.json();
-      // console.log("debug ", result);
-      const { success, message, error , jwtToken, username } = result;
-      console.log("debug result", result);
+      const { success, message, error, jwtToken, username } = result;
+
       if (success) {
         handleSuccess(message);
-        localStorage.setItem("token" ,jwtToken);
+        localStorage.setItem("token", jwtToken);
         localStorage.setItem("loggedInUser", username);
-
-        window.location.href = "https://zerodha-dashboard-six.vercel.app/"; 
-
-
+        window.location.href = "https://zerodha-dashboard-six.vercel.app/";
       } else if (error) {
-        const details = error?.details[0].message;
-        handlError(details);
-      } else if (!success) {
+        handlError(error?.details[0].message);
+      } else {
         handlError(message);
       }
-      console.log(result);
     } catch (err) {
       handlError(err);
     }
@@ -70,36 +56,32 @@ export default function Login() {
       <div className="form_container">
         <h2 className="Title">Login</h2>
         <form onSubmit={handleLogin}>
-
-
           <div className="input">
-            <label htmlFor="email"> email</label>
+            <label htmlFor="email">Email</label>
             <input
               onChange={handleChange}
               type="text"
               name="email"
               placeholder="Enter your email"
               value={loginInfo.email}
-            ></input>
+            />
           </div>
 
           <div className="input">
-            <label htmlFor="password"> Password</label>
+            <label htmlFor="password">Password</label>
             <input
               onChange={handleChange}
               type="password"
               name="password"
               placeholder="Enter your password"
               value={loginInfo.password}
-            ></input>
+            />
           </div>
 
-          <button type="submit">Signup</button>
+          <button type="submit">Login</button> {/* FIXED */}
           <span>
-            Doesn't have an account ?
-            <Link to="/signup" className="Link">
-              Signup
-            </Link>
+            Don't have an account?{" "}
+            <Link to="/signup" className="Link">Signup</Link>
           </span>
         </form>
         <ToastContainer />
@@ -107,4 +89,3 @@ export default function Login() {
     </div>
   );
 }
-
