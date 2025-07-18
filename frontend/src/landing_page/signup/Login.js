@@ -50,7 +50,7 @@ export default function Login() {
         localStorage.setItem("token" ,jwtToken);
         localStorage.setItem("loggedInUser", username);
 
-        window.location.href = "http://localhost:3001/"; 
+        window.location.href = "https://zerodha-dashboard-six.vercel.app/"; 
 
 
       } else if (error) {
