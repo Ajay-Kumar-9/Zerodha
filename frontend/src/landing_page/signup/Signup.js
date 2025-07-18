@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./Signup.css";
@@ -34,7 +34,7 @@ export default function Signup() {
       return handlError("name, email and  password are required");
     }
     try {
-      const url = "http://localhost:8080/auth/signup";
+      const url = `${process.env.REACT_APP_API_BASE_URL}/auth/signup`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

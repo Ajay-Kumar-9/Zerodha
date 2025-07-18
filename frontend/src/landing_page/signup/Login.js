@@ -33,7 +33,7 @@ export default function Login() {
       return handlError(" email and  password are required");
     }
     try {
-      const url = "http://localhost:8080/auth/login";
+      const url = `${process.env.REACT_APP_API_BASE_URL}/auth/login`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -52,9 +52,7 @@ export default function Login() {
 
         window.location.href = "http://localhost:3001/"; 
 
-        // setTimeout(() => {
-        //   navigate("/login");
-        // }, 1000);
+
       } else if (error) {
         const details = error?.details[0].message;
         handlError(details);
